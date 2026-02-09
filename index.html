@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're Invited!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .welcome-message {
+            background-color: #242424;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid #333;
+            line-height: 1.8;
+        }
+
+        .welcome-message p {
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        .welcome-message p:last-child {
+            margin-bottom: 0;
+        }
+
+        .welcome-message ul {
+            margin: 15px 0 20px 20px;
+            color: #e0e0e0;
+        }
+
+        .welcome-message li {
+            margin-bottom: 10px;
+        }
+
+        .welcome-message strong {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .party-details {
+            background-color: #242424;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid #333;
+        }
+
+        .detail-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1.1em;
+            color: #e0e0e0;
+        }
+
+        .rsvp-section {
+            background-color: #242424;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #333;
+        }
+
+        .greeting {
+            font-size: 1.3em;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #ccc;
+        }
+
+        select, textarea, input[type="email"], input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, textarea:focus, input[type="email"]:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #666;
+        }
+
+        .field-helper {
+            font-size: 0.9em;
+            color: #888;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
+        .conditional-field {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+        }
+
+        .conditional-field.show {
+            display: block;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #ffffff;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #e0e0e0;
+        }
+
+        button:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+
+        button:disabled {
+            background-color: #444;
+            color: #888;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .message.show {
+            opacity: 1;
+        }
+
+        .message.success {
+            background-color: #1a4d1a;
+            color: #80ff80;
+            border: 1px solid #2d6b2d;
+        }
+
+        .message.error {
+            background-color: #4d1a1a;
+            color: #ff8080;
+            border: 1px solid #6b2d2d;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.1em;
+            color: #888;
+        }
+
+        .error-page {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .error-page h2 {
+            color: #ff8080;
+            margin-bottom: 15px;
+        }
+
+        .error-page p {
+            color: #888;
+            font-size: 1.1em;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .container {
+                padding: 20px 10px;
+            }
+
+            .party-details, .rsvp-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎉 Åsmund's Birthday Party</h1>
+        </header>
+
+        <div id="loadingMessage" class="loading">
+            Loading your invitation...
+        </div>
+
+        <div id="errorPage" class="error-page" style="display: none;">
+            <h2>Invalid Invitation</h2>
+            <p>This invitation link is not valid. Please check your link and try again.</p>
+        </div>
+
+        <div id="mainContent" style="display: none;">
+            <div class="welcome-message">
+                <div class="greeting" id="greeting-welcome"></div>
+                <p>Turning 40 is a milestone worth celebrating, and I can't think of a better way to mark the occasion than gathering with the people who matter most - those I'm lucky to see regularly, and those I don't see nearly enough.</p>
+
+                <p>This is a casual, come-as-you-are kind of celebration and we're keeping it simple:</p>
+                <ul>
+                    <li><strong>Pizza will be ordered</strong> (but do not arrive starving, consider it fuel, not a full dinner)</li>
+                    <li><strong>Drinks are a collective effort:</strong> Bring whatever you'd like to share and we'll create a common pool for everyone to enjoy (beer, wine, bubbles or something non-alcoholic).</li>
+                </ul>
+
+                <p>No fuss, no formality - just good company, good food, and a great time together.</p>
+
+                <p>Looking forward to celebrating with you!</p>
+            </div>
+
+            <div class="party-details">
+                <div class="detail-item">
+                    <div class="detail-label">Date & Time</div>
+                    <div class="detail-value">Saturday, February 28, 2026 at 19:00</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Location</div>
+                    <div class="detail-value">Gamle Raadhus Scene<br/>Christiania Torv 1, Oslo</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Dress Code</div>
+                    <div class="detail-value">Whatever you feel fabulous in!<br/><em>Please bring indoor shoes - the floors were not designed for winter boots and slushy February adventures!</em></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">RSVP Deadline</div>
+                    <div class="detail-value">February 25, 2026</div>
+                </div>
+            </div>
+
+            <div class="rsvp-section">
+                <div class="greeting">Please RSVP below</div>
+
+                <form id="rsvpForm">
+                    <div class="form-group">
+                        <label for="attending">Will you be attending?</label>
+                        <select id="attending" name="attending" required>
+                            <option value="">Please select...</option>
+                            <option value="Yes">Yes, I'll be there!</option>
+                            <option value="No">Sorry, I can't make it</option>
+                        </select>
+                        <div class="field-helper" id="attendingHelper">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="plusOne">Will you bring a +1?</label>
+                        <select id="plusOne" name="plusOne" required>
+                            <option value="">Please select...</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                        <div class="field-helper" id="plusOneHelper">
+                            Because surprise guests are fun but they won't get pizza.
+                        </div>
+
+                        <div class="conditional-field" id="plusOneNameField">
+                            <label for="plusOneName">Name of your +1</label>
+                            <input
+                                type="text"
+                                id="plusOneName"
+                                name="plusOneName"
+                                placeholder="Enter your guest's name"
+                            >
+                            <div class="field-helper" id="plusOneNameHelper"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Your Email Address</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="your.email@example.com"
+                            required
+                        >
+                        <div class="field-helper" id="emailHelper">
+                            In case we send out practical info later - like "Here's where to put your innesko" or "Emergency pizza update."
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dietary">Allergies or Dietary Preferences (Optional)</label>
+                        <textarea id="dietary" name="dietary" placeholder="I love pineapple pizza"></textarea>
+                        <div class="field-helper" id="dietaryHelper">
+                            Let us know if you have any dietary restrictions or allergies...
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn">Submit RSVP</button>
+
+                    <div id="message" class="message"></div>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+            <p>Looking forward to celebrating with you!</p>
+        </footer>
+    </div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwH8eqaksw5lLHGjVyuKSg7Ei0iXq6uZ0RJYIPOHKmU7olEGi9i88AAHx2fwksJ0IZe/exec';
+
+        let guestId = null;
+        let guestName = null;
+
+        // Extract guest ID from URL parameters
+        function getGuestIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
+
+        // Fetch guest information
+        async function fetchGuestInfo(id) {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getGuest&id=${encodeURIComponent(id)}`);
+                const data = await response.json();
+
+                if (data.success && data.name) {
+                    return data.name;
+                } else {
+                    throw new Error(data.error || 'Invalid guest ID');
+                }
+            } catch (error) {
+                console.error('Error fetching guest info:', error);
+                throw error;
+            }
+        }
+
+        // Fetch previous response
+        async function fetchPreviousResponse(id) {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getResponse&id=${encodeURIComponent(id)}`);
+
+                if (!response.ok) {
+                    return null;
+                }
+
+                const data = await response.json();
+
+                if (data.success && data.hasResponse !== false) {
+                    return data;
+                } else {
+                    return null;
+                }
+            } catch (error) {
+                console.error('Error fetching previous response:', error);
+                return null;
+            }
+        }
+
+        // Populate form with previous response
+        function populateForm(response) {
+            if (!response) return;
+
+            try {
+                // Populate fields
+                if (response.attending) {
+                    const attendingEl = document.getElementById('attending');
+                    if (attendingEl) {
+                        attendingEl.value = response.attending;
+                        // Trigger change event to show/hide fields
+                        attendingEl.dispatchEvent(new Event('change'));
+                    }
+                }
+
+                if (response.email) {
+                    const emailEl = document.getElementById('email');
+                    if (emailEl) emailEl.value = response.email;
+                }
+
+                if (response.plusOne) {
+                    const plusOneEl = document.getElementById('plusOne');
+                    if (plusOneEl) {
+                        plusOneEl.value = response.plusOne;
+                        // Trigger change event to show/hide +1 name field
+                        plusOneEl.dispatchEvent(new Event('change'));
+                    }
+                }
+
+                if (response.plusOneName) {
+                    const plusOneNameEl = document.getElementById('plusOneName');
+                    if (plusOneNameEl) plusOneNameEl.value = response.plusOneName;
+                }
+
+                if (response.dietary) {
+                    const dietaryEl = document.getElementById('dietary');
+                    if (dietaryEl) dietaryEl.value = response.dietary;
+                }
+            } catch (error) {
+                console.error('Error populating form:', error);
+            }
+        }
+
+        // Show error page
+        function showErrorPage() {
+            document.getElementById('loadingMessage').style.display = 'none';
+            document.getElementById('errorPage').style.display = 'block';
+        }
+
+        // Show main content
+        function showMainContent(name, previousResponse) {
+            guestName = name;
+            document.getElementById('greeting-welcome').textContent = `Dear ${name}!`;
+            document.getElementById('loadingMessage').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+
+            // Populate form with previous response if available
+            if (previousResponse) {
+                populateForm(previousResponse);
+            }
+        }
+
+        // Show message
+        function showMessage(text, isError = false) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${isError ? 'error' : 'success'} show`;
+        }
+
+        // Hide message
+        function hideMessage() {
+            const messageEl = document.getElementById('message');
+            messageEl.classList.remove('show');
+        }
+
+        // Submit RSVP
+        async function submitRSVP(formData) {
+            try {
+                const payload = {
+                    id: guestId,
+                    email: formData.get('email'),
+                    attending: formData.get('attending'),
+                    plusOne: formData.get('plusOne'),
+                    plusOneName: formData.get('plusOneName'),
+                    dietary: formData.get('dietary')
+                };
+
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage(data.message || 'Thank you for your RSVP!', false);
+                    document.getElementById('submitBtn').disabled = true;
+                    document.getElementById('rsvpForm').querySelectorAll('select, textarea, input').forEach(el => {
+                        el.disabled = true;
+                    });
+                } else {
+                    showMessage(data.error || 'An error occurred. Please try again.', true);
+                }
+            } catch (error) {
+                console.error('Error submitting RSVP:', error);
+                showMessage('Network error. Please check your connection and try again.', true);
+            }
+        }
+
+        // Handle attending field - hide other fields if not attending
+        document.getElementById('attending').addEventListener('change', function(e) {
+            const otherFields = ['plusOne', 'email', 'dietary'].map(id =>
+                document.getElementById(id).closest('.form-group')
+            );
+            const emailInput = document.getElementById('email');
+            const plusOneSelect = document.getElementById('plusOne');
+            const plusOneNameField = document.getElementById('plusOneNameField');
+
+            if (e.target.value === 'No') {
+                // Hide all other fields
+                otherFields.forEach(field => field.style.display = 'none');
+
+                // Make fields optional and clear values
+                emailInput.required = false;
+                emailInput.value = '';
+                plusOneSelect.required = false;
+                plusOneSelect.value = '';
+                plusOneNameField.classList.remove('show');
+                document.getElementById('plusOneName').value = '';
+                document.getElementById('dietary').value = '';
+            } else if (e.target.value === 'Yes') {
+                // Show all fields
+                otherFields.forEach(field => field.style.display = 'block');
+
+                // Make fields required again
+                emailInput.required = true;
+                plusOneSelect.required = true;
+            }
+        });
+
+        // Handle +1 field visibility
+        document.getElementById('plusOne').addEventListener('change', function(e) {
+            const plusOneNameField = document.getElementById('plusOneNameField');
+            const plusOneNameInput = document.getElementById('plusOneName');
+
+            if (e.target.value === 'Yes') {
+                plusOneNameField.classList.add('show');
+                plusOneNameInput.required = true;
+            } else {
+                plusOneNameField.classList.remove('show');
+                plusOneNameInput.required = false;
+                plusOneNameInput.value = '';
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMessage();
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            const formData = new FormData(e.target);
+            await submitRSVP(formData);
+
+            submitBtn.textContent = 'Submit RSVP';
+            if (!submitBtn.disabled) {
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Initialize page
+        async function init() {
+            guestId = getGuestIdFromUrl();
+
+            if (!guestId) {
+                showErrorPage();
+                return;
+            }
+
+            try {
+                // Fetch both guest info and previous response in parallel for speed
+                const [name, previousResponse] = await Promise.all([
+                    fetchGuestInfo(guestId),
+                    fetchPreviousResponse(guestId).catch(error => {
+                        console.error('Failed to fetch previous response:', error);
+                        return null; // Don't let this block the page load
+                    })
+                ]);
+
+                showMainContent(name, previousResponse);
+            } catch (error) {
+                console.error('Error initializing page:', error);
+                showErrorPage();
+            }
+        }
+
+        // Run initialization when page loads
+        init();
+    </script>
+</body>
+</html>
